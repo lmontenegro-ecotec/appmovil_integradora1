@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:appmovil_integradora1/models/producto.dart';
 import 'package:appmovil_integradora1/widgets/producto_card.dart';
+import 'package:appmovil_integradora1/screens/detalle_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -46,7 +47,20 @@ class HomeScreen extends StatelessWidget {
               itemCount: productos.length,
               itemBuilder: (context, index) {
                 final producto = productos[index];
-                return ProductoCard(producto: producto);
+                return ProductoCard(
+                  producto: producto,
+                  onTap: () {
+                    debugPrint(
+                      'Navegando al detalle con producto id=${producto.id} (${producto.nombre})',
+                    );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetalleScreen(producto: producto),
+                      ),
+                    );
+                  },
+                );
               },
             ),
           ),
