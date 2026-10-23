@@ -37,7 +37,7 @@ class _DetalleScreenState extends State<DetalleScreen> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.network(
+              child: Image.asset(
                 producto.imagen,
                 width: double.infinity,
                 height: 220,

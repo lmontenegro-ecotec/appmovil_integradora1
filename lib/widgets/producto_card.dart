@@ -14,7 +14,7 @@ class ProductoCard extends StatelessWidget {
       child: ListTile(
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8),
-          child: Image.network(
+          child: Image.asset(
             producto.imagen,
             width: 56,
             height: 56,

@@ -1,17 +1,25 @@
-# appmovil_integradora1
+# Catálogo Electrónico – Actividad Integradora 1
 
-A new Flutter project.
+App Flutter de catálogo de productos electrónicos (MVP) para la asignatura Desarrollo de Aplicaciones Móviles – Universidad Ecotec.
 
-## Getting Started
+## Funcionalidades
+- Pantalla principal con lista de productos (ListView.builder + Card + ListTile).
+- Pantalla de detalle que recibe el producto seleccionado como parámetro.
+- Marcar producto como favorito (StatefulWidget + setState).
+- Navegación ida y vuelta con Navigator.push / Navigator.pop.
 
-This project is a starting point for a Flutter application.
+## Estructura
+lib/
+├── main.dart
+├── models/producto.dart
+├── widgets/producto_card.dart
+└── screens/
+    ├── home_screen.dart
+    └── detalle_screen.dart
 
-A few resources to get you started if this is your first Flutter project:
+## Ejecución
+flutter pub get
+flutter run
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Autor
+Lenin Montenegro
