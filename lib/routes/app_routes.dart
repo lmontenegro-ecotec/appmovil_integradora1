@@ -14,7 +14,7 @@ class AppRoutes {
     inicio: (context) => const HomeScreen(),
     // El producto llega como argumento desde Navigator.pushNamed
     detalle: (context) => DetalleScreen(
-          producto: ModalRoute.of(context)!.settings.arguments as Producto,
-        ),
+      producto: ModalRoute.of(context)!.settings.arguments as Producto,
+    ),
   };
 }
