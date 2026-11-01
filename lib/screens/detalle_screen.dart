@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:appmovil_integradora1/models/producto.dart';
+import 'package:appmovil_integradora1/theme/app_theme.dart';
 
 class DetalleScreen extends StatefulWidget {
   final Producto producto;
@@ -19,8 +20,6 @@ class _DetalleScreenState extends State<DetalleScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(producto.nombre),
-        backgroundColor: Colors.indigo,
-        foregroundColor: Colors.white,
         actions: [
           IconButton(
             icon: Icon(favorito ? Icons.favorite : Icons.favorite_border),
@@ -52,21 +51,21 @@ class _DetalleScreenState extends State<DetalleScreen> {
             const SizedBox(height: 8),
             Text(
               '\$${producto.precio.toStringAsFixed(2)}',
-              style: const TextStyle(fontSize: 20, color: Colors.indigo),
+              style: const TextStyle(fontSize: 20, color: AppTheme.primario),
             ),
             const SizedBox(height: 16),
             Text(producto.descripcion, style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 8),
             Text(
               'Código de producto: ${producto.id}',
-              style: const TextStyle(color: Colors.grey),
+              style: const TextStyle(color: AppTheme.textoSecundario),
             ),
             const SizedBox(height: 24),
             Row(
               children: [
                 Icon(
                   favorito ? Icons.favorite : Icons.favorite_border,
-                  color: Colors.red,
+                  color: AppTheme.favorito,
                 ),
                 const SizedBox(width: 8),
                 Text(favorito ? 'En tus favoritos' : 'Sin marcar'),

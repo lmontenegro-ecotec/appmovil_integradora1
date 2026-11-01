@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:appmovil_integradora1/screens/home_screen.dart';
+import 'package:appmovil_integradora1/theme/app_theme.dart';
 
 void main() => runApp(const MyApp());
 
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'TiendaTec',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(colorSchemeSeed: Colors.indigo),
+      theme: AppTheme.lightTheme,
       home: const HomeScreen(),
     );
   }
