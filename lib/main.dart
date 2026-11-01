@@ -3,18 +3,35 @@ import 'package:provider/provider.dart';
 import 'package:appmovil_integradora1/providers/catalogo_provider.dart';
 import 'package:appmovil_integradora1/providers/conectividad_provider.dart';
 import 'package:appmovil_integradora1/services/conectividad_service.dart';
+import 'package:appmovil_integradora1/services/notificaciones_service.dart';
 import 'package:appmovil_integradora1/repository/producto_repository.dart';
 import 'package:appmovil_integradora1/routes/app_routes.dart';
 import 'package:appmovil_integradora1/theme/app_theme.dart';
 
-void main() {
-  // Necesario antes de usar plugins nativos (conectividad)
+Future<void> main() async {
+  // Necesario antes de usar plugins nativos (conectividad, notificaciones)
   WidgetsFlutterBinding.ensureInitialized();
+
+  final notificaciones = NotificacionesService.instancia;
+  await notificaciones.inicializar();
 
   final catalogo = CatalogoProvider(ProductoRepository())..cargarProductos();
   final conectividad = ConectividadProvider(ConectividadService())
-    // Cuando vuelve internet se recarga el catálogo automáticamente
-    ..alReconectar = catalogo.cargarProductos;
+    // Evento clave: se pierde la conexión
+    ..alPerderConexion = () {
+      notificaciones.mostrar(
+        'Sin conexión a internet',
+        'TiendaTec muestra el catálogo guardado en tu dispositivo.',
+      );
+    }
+    // Evento clave: vuelve la conexión -> recarga el catálogo y avisa
+    ..alReconectar = () {
+      catalogo.cargarProductos();
+      notificaciones.mostrar(
+        'Conexión restablecida',
+        'El catálogo de TiendaTec se actualizó desde internet.',
+      );
+    };
 
   runApp(
     // Providers disponibles para toda la app
@@ -26,6 +43,9 @@ void main() {
       child: const MyApp(),
     ),
   );
+
+  // Se pide el permiso de notificaciones cuando la app ya está en pantalla
+  notificaciones.solicitarPermiso();
 }
 
 class MyApp extends StatelessWidget {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:appmovil_integradora1/models/producto.dart';
+import 'package:appmovil_integradora1/services/notificaciones_service.dart';
 import 'package:appmovil_integradora1/theme/app_theme.dart';
 
 class DetalleScreen extends StatefulWidget {
@@ -23,9 +24,18 @@ class _DetalleScreenState extends State<DetalleScreen> {
         actions: [
           IconButton(
             icon: Icon(favorito ? Icons.favorite : Icons.favorite_border),
-            onPressed: () => setState(() {
-              favorito = !favorito;
-            }),
+            onPressed: () {
+              setState(() {
+                favorito = !favorito;
+              });
+              // Evento clave: producto agregado a favoritos
+              if (favorito) {
+                NotificacionesService.instancia.mostrar(
+                  'Agregado a favoritos',
+                  '${producto.nombre} se guardó en tus favoritos.',
+                );
+              }
+            },
           ),
         ],
       ),

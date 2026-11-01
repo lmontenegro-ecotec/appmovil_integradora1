@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:appmovil_integradora1/repository/perfil_repository.dart';
 import 'package:appmovil_integradora1/services/camara_service.dart';
+import 'package:appmovil_integradora1/services/notificaciones_service.dart';
 import 'package:appmovil_integradora1/theme/app_theme.dart';
 
 /// Pantalla de perfil: foto con cámara o galería y manejo de permisos.
@@ -58,6 +59,11 @@ class _PerfilScreenState extends State<PerfilScreen> {
       if (!mounted) return;
       setState(() => _foto = guardada ?? imagen);
       _mensaje('Foto de perfil actualizada');
+      // Evento clave: foto de perfil actualizada
+      NotificacionesService.instancia.mostrar(
+        'Foto de perfil actualizada',
+        'Tu nueva foto se guardó en el dispositivo.',
+      );
     } finally {
       if (mounted) setState(() => _procesando = false);
     }
