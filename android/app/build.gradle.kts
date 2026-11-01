@@ -6,7 +6,8 @@ plugins {
 
 android {
     namespace = "com.lmontenegro.tiendatec"
-    compileSdk = flutter.compileSdkVersion
+    // permission_handler_android requiere compilar contra Android SDK 37
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
