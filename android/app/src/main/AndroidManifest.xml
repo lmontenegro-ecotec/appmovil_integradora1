@@ -1,6 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Acceso a internet para descargar el catálogo de TiendaTec -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Cámara para la foto de perfil (se solicita en tiempo de ejecución) -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- Notificaciones locales (Android 13+ requiere permiso) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <!-- Galería: Android 13+ usa READ_MEDIA_IMAGES; versiones anteriores, almacenamiento -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>
     <application
         android:label="TiendaTec"
         android:name="${applicationName}"

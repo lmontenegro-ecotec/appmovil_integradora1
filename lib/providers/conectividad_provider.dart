@@ -16,6 +16,9 @@ class ConectividadProvider extends ChangeNotifier {
   /// (por ejemplo, recargar el catálogo).
   VoidCallback? alReconectar;
 
+  /// Acción opcional a ejecutar cuando se pierde la conexión.
+  VoidCallback? alPerderConexion;
+
   ConectividadProvider(this._servicio) {
     _iniciar();
   }
@@ -39,7 +42,11 @@ class ConectividadProvider extends ChangeNotifier {
     _conectado = hayConexion;
     debugPrint('Conectividad: ${_conectado ? "EN LÍNEA" : "SIN CONEXIÓN"}');
     notifyListeners();
-    if (volvioLaConexion) alReconectar?.call();
+    if (volvioLaConexion) {
+      alReconectar?.call();
+    } else {
+      alPerderConexion?.call();
+    }
   }
 
   @override

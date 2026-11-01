@@ -6,10 +6,13 @@ plugins {
 
 android {
     namespace = "com.lmontenegro.tiendatec"
-    compileSdk = flutter.compileSdkVersion
+    // permission_handler_android requiere compilar contra Android SDK 37
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
+        // Requerido por flutter_local_notifications (APIs de Java modernas)
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -46,4 +49,8 @@ kotlin {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }
