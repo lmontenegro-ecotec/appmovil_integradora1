@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "nombre": "Laptop Pro 14",
+    "descripcion": "Procesador de 12 núcleos, 16 GB RAM y SSD de 512 GB.",
+    "precio": 899.99,
+    "imagen": "assets/productos/laptop.jpg"
+  },
+  {
+    "id": 2,
+    "nombre": "Smartphone X",
+    "descripcion": "Pantalla AMOLED de 6.5\", cámara de 50 MP y 5G.",
+    "precio": 499.0,
+    "imagen": "assets/productos/phone.jpg"
+  },
+  {
+    "id": 3,
+    "nombre": "Audífonos BT",
+    "descripcion": "Cancelación de ruido y 30 horas de batería.",
+    "precio": 79.9,
+    "imagen": "assets/productos/audio.jpg"
+  },
+  {
+    "id": 4,
+    "nombre": "Smartwatch Fit",
+    "descripcion": "Monitor cardíaco, GPS y resistencia al agua.",
+    "precio": 129.5,
+    "imagen": "assets/productos/watch.jpg"
+  },
+  {
+    "id": 5,
+    "nombre": "Monitor 27\"",
+    "descripcion": "Resolución 2K a 144 Hz para trabajo y juegos.",
+    "precio": 259.0,
+    "imagen": "assets/productos/monitor.jpg"
+  },
+  {
+    "id": 6,
+    "nombre": "Teclado Mecánico RGB",
+    "descripcion": "Switches táctiles, iluminación RGB y conexión USB-C.",
+    "precio": 69.99,
+    "imagen": "assets/productos/keyboard.jpg"
+  }
+]

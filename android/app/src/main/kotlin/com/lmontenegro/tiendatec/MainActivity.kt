@@ -1,4 +1,4 @@
-package com.example.appmovil_integradora1
+package com.lmontenegro.tiendatec
 
 import io.flutter.embedding.android.FlutterActivity
 

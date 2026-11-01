@@ -1,3 +1,4 @@
+/// Modelo de datos de un producto del catálogo de TiendaTec.
 class Producto {
   final int id;
   final String nombre;
@@ -12,42 +13,24 @@ class Producto {
     required this.precio,
     required this.imagen,
   });
-}
 
-const List<Producto> productos = [
-  Producto(
-    id: 1,
-    nombre: 'Laptop Pro 14',
-    descripcion: 'Procesador de 12 núcleos, 16 GB RAM y SSD de 512 GB.',
-    precio: 899.99,
-    imagen: 'assets/productos/laptop.jpg',
-  ),
-  Producto(
-    id: 2,
-    nombre: 'Smartphone X',
-    descripcion: 'Pantalla AMOLED de 6.5", cámara de 50 MP y 5G.',
-    precio: 499.00,
-    imagen: 'assets/productos/phone.jpg',
-  ),
-  Producto(
-    id: 3,
-    nombre: 'Audífonos BT',
-    descripcion: 'Cancelación de ruido y 30 horas de batería.',
-    precio: 79.90,
-    imagen: 'assets/productos/audio.jpg',
-  ),
-  Producto(
-    id: 4,
-    nombre: 'Smartwatch Fit',
-    descripcion: 'Monitor cardíaco, GPS y resistencia al agua.',
-    precio: 129.50,
-    imagen: 'assets/productos/watch.jpg',
-  ),
-  Producto(
-    id: 5,
-    nombre: 'Monitor 27"',
-    descripcion: 'Resolución 2K a 144 Hz para trabajo y juegos.',
-    precio: 259.00,
-    imagen: 'assets/productos/monitor.jpg',
-  ),
-];
+  /// Crea un Producto a partir de un mapa JSON (lo que llega de internet o de la caché).
+  factory Producto.fromJson(Map<String, dynamic> json) {
+    return Producto(
+      id: json['id'] as int,
+      nombre: json['nombre'] as String,
+      descripcion: json['descripcion'] as String,
+      precio: (json['precio'] as num).toDouble(),
+      imagen: json['imagen'] as String,
+    );
+  }
+
+  /// Convierte el Producto a un mapa JSON (para guardarlo en la caché).
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'nombre': nombre,
+    'descripcion': descripcion,
+    'precio': precio,
+    'imagen': imagen,
+  };
+}

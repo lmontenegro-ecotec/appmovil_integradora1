@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Acceso a internet para descargar el catálogo de TiendaTec -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="appmovil_integradora1"
+        android:label="TiendaTec"
         android:name="${applicationName}"
         android:enableOnBackInvokedCallback="true"        
         android:icon="@mipmap/ic_launcher">
