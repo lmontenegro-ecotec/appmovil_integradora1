@@ -3,16 +3,18 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:appmovil_integradora1/models/producto.dart';
 
 /// De dónde se obtuvieron los datos del catálogo.
-enum OrigenDatos { red, local }
+enum OrigenDatos { red, cache, local }
 
 /// Resultado de la carga del catálogo: la lista y su origen.
 class ResultadoCatalogo {
   final List<Producto> productos;
   final OrigenDatos origen;
-  const ResultadoCatalogo(this.productos, this.origen);
+  final DateTime? guardadoEl; // fecha de la copia en caché (si aplica)
+  const ResultadoCatalogo(this.productos, this.origen, [this.guardadoEl]);
 }
 
 /// Capa de datos: obtiene los productos de TiendaTec.
@@ -22,13 +24,18 @@ class ProductoRepository {
   static const String urlCatalogo =
       'https://raw.githubusercontent.com/lmontenegro-ecotec/appmovil_integradora1/develop/data/productos.json';
 
+  // Claves usadas para guardar la caché en el dispositivo
+  static const String _claveCache = 'catalogo_cache';
+  static const String _claveFecha = 'catalogo_cache_fecha';
+
   final http.Client _cliente;
 
   ProductoRepository({http.Client? cliente})
     : _cliente = cliente ?? http.Client();
 
   /// Descarga el catálogo. Si falla la red (sin conexión, timeout,
-  /// error HTTP o JSON inválido) se usa el catálogo local de respaldo.
+  /// error HTTP o JSON inválido) se usa la caché y, si no existe,
+  /// el catálogo local de respaldo.
   Future<ResultadoCatalogo> obtenerProductos() async {
     try {
       final respuesta = await _cliente
@@ -45,6 +52,7 @@ class ProductoRepository {
         debugPrint(
           'Catálogo cargado desde internet: ${productos.length} productos',
         );
+        await _guardarEnCache(productos);
         return ResultadoCatalogo(productos, OrigenDatos.red);
       }
       debugPrint('Catálogo: respuesta HTTP ${respuesta.statusCode}');
@@ -54,8 +62,45 @@ class ProductoRepository {
       debugPrint('Catálogo: error al descargar -> $e');
     }
 
+    // 1) Sin red: se intenta usar la última copia guardada en el dispositivo
+    final enCache = await _leerCache();
+    if (enCache != null) return enCache;
+
+    // 2) Si nunca se guardó nada, se usa el catálogo incluido en la app
     debugPrint('Catálogo: usando datos locales de respaldo');
     return const ResultadoCatalogo(productosLocales, OrigenDatos.local);
+  }
+
+  /// Guarda el catálogo descargado (persistencia local con SharedPreferences).
+  Future<void> _guardarEnCache(List<Producto> productos) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final json = jsonEncode(productos.map((p) => p.toJson()).toList());
+      await prefs.setString(_claveCache, json);
+      await prefs.setString(_claveFecha, DateTime.now().toIso8601String());
+      debugPrint('Caché: catálogo guardado (${productos.length} productos)');
+    } catch (e) {
+      debugPrint('Caché: no se pudo guardar -> $e');
+    }
+  }
+
+  /// Lee la última copia guardada; devuelve null si no existe o está dañada.
+  Future<ResultadoCatalogo?> _leerCache() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final json = prefs.getString(_claveCache);
+      if (json == null) return null;
+      final List<dynamic> datos = jsonDecode(json);
+      final productos = datos
+          .map((e) => Producto.fromJson(e as Map<String, dynamic>))
+          .toList();
+      final fecha = DateTime.tryParse(prefs.getString(_claveFecha) ?? '');
+      debugPrint('Caché: usando catálogo guardado (${productos.length} productos)');
+      return ResultadoCatalogo(productos, OrigenDatos.cache, fecha);
+    } catch (e) {
+      debugPrint('Caché: no se pudo leer -> $e');
+      return null;
+    }
   }
 
   /// Catálogo de respaldo incluido en la app (el de la Actividad Integradora 1).

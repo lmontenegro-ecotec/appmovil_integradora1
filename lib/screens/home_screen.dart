@@ -43,9 +43,13 @@ class HomeScreen extends StatelessWidget {
                       Text('${productos.length} productos disponibles'),
                       if (catalogo.origen != null)
                         Text(
-                          catalogo.origen == OrigenDatos.red
-                              ? 'Catálogo actualizado desde internet'
-                              : 'Catálogo local de respaldo',
+                          switch (catalogo.origen!) {
+                            OrigenDatos.red =>
+                              'Catálogo actualizado desde internet',
+                            OrigenDatos.cache =>
+                              'Sin conexión: catálogo guardado${catalogo.guardadoEl != null ? ' el ${_formatoFecha(catalogo.guardadoEl!)}' : ''}',
+                            OrigenDatos.local => 'Catálogo local de respaldo',
+                          },
                           style: const TextStyle(
                             fontSize: 12,
                             color: AppTheme.textoSecundario,
@@ -101,5 +105,11 @@ class HomeScreen extends StatelessWidget {
         label: const Text('Info'),
       ),
     );
+  }
+
+  /// Formato corto dd/mm hh:mm para mostrar la fecha de la caché.
+  static String _formatoFecha(DateTime f) {
+    String dos(int n) => n.toString().padLeft(2, '0');
+    return '${dos(f.day)}/${dos(f.month)} ${dos(f.hour)}:${dos(f.minute)}';
   }
 }

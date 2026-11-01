@@ -13,11 +13,13 @@ class CatalogoProvider extends ChangeNotifier {
   bool _cargando = false;
   String? _error;
   OrigenDatos? _origen;
+  DateTime? _guardadoEl;
 
   List<Producto> get productos => _productos;
   bool get cargando => _cargando;
   String? get error => _error;
   OrigenDatos? get origen => _origen;
+  DateTime? get guardadoEl => _guardadoEl;
 
   /// Pide los productos al repositorio y avisa a la interfaz.
   Future<void> cargarProductos() async {
@@ -29,6 +31,7 @@ class CatalogoProvider extends ChangeNotifier {
       final resultado = await _repositorio.obtenerProductos();
       _productos = resultado.productos;
       _origen = resultado.origen;
+      _guardadoEl = resultado.guardadoEl;
     } catch (e) {
       _error = 'No se pudo cargar el catálogo';
       debugPrint('CatalogoProvider: $e');
