@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:appmovil_integradora1/models/producto.dart';
-import 'package:appmovil_integradora1/widgets/producto_card.dart';
-import 'package:appmovil_integradora1/screens/detalle_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:appmovil_integradora1/providers/catalogo_provider.dart';
+import 'package:appmovil_integradora1/repository/producto_repository.dart';
+import 'package:appmovil_integradora1/routes/app_routes.dart';
+import 'package:appmovil_integradora1/widgets/widgets.dart';
 import 'package:appmovil_integradora1/theme/app_theme.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -9,10 +11,12 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Escucha el estado del catálogo: se redibuja cuando cambia
+    final catalogo = context.watch<CatalogoProvider>();
+    final productos = catalogo.productos;
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('TiendaTec'),
-      ),
+      appBar: AppBar(title: const Text('TiendaTec')),
       body: Column(
         children: [
           Container(
@@ -35,6 +39,16 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       Text('${productos.length} productos disponibles'),
+                      if (catalogo.origen != null)
+                        Text(
+                          catalogo.origen == OrigenDatos.red
+                              ? 'Catálogo actualizado desde internet'
+                              : 'Catálogo local de respaldo',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppTheme.textoSecundario,
+                          ),
+                        ),
                     ],
                   ),
                 ),
@@ -42,26 +56,32 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: productos.length,
-              itemBuilder: (context, index) {
-                final producto = productos[index];
-                return ProductoCard(
-                  producto: producto,
-                  onTap: () {
-                    debugPrint(
-                      'Navegando al detalle con producto id=${producto.id} (${producto.nombre})',
-                    );
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DetalleScreen(producto: producto),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
+            child: catalogo.cargando
+                ? const Center(child: CircularProgressIndicator())
+                : RefreshIndicator(
+                    // Deslizar hacia abajo vuelve a cargar el catálogo
+                    onRefresh: catalogo.cargarProductos,
+                    child: ListView.builder(
+                      itemCount: productos.length,
+                      itemBuilder: (context, index) {
+                        final producto = productos[index];
+                        return ProductoCard(
+                          producto: producto,
+                          onTap: () {
+                            debugPrint(
+                              'Navegando al detalle con producto id=${producto.id} (${producto.nombre})',
+                            );
+                            // Navegación por nombre enviando el producto como argumento
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.detalle,
+                              arguments: producto,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
           ),
         ],
       ),

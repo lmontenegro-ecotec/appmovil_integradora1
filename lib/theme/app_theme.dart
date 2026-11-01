@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 class AppTheme {
   // Paleta de marca
   static const Color primario = Color(0xFF3730A3); // índigo
-  static const Color primarioOscuro = Color(0xFF1E1B4B); // índigo oscuro (splash / AppBar)
+  static const Color primarioOscuro = Color(
+    0xFF1E1B4B,
+  ); // índigo oscuro (splash / AppBar)
   static const Color acento = Color(0xFFFACC15); // amarillo eléctrico
   static const Color fondo = Color(0xFFF5F5FA);
   static const Color fondoSuave = Color(0xFFE0E7FF);
