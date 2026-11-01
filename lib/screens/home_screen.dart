@@ -19,6 +19,8 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('TiendaTec')),
       body: Column(
         children: [
+          // Banner que aparece solo cuando no hay internet
+          const OfflineBanner(),
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(16),

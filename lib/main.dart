@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:appmovil_integradora1/providers/catalogo_provider.dart';
+import 'package:appmovil_integradora1/providers/conectividad_provider.dart';
+import 'package:appmovil_integradora1/services/conectividad_service.dart';
 import 'package:appmovil_integradora1/repository/producto_repository.dart';
 import 'package:appmovil_integradora1/routes/app_routes.dart';
 import 'package:appmovil_integradora1/theme/app_theme.dart';
 
 void main() {
+  // Necesario antes de usar plugins nativos (conectividad)
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final catalogo = CatalogoProvider(ProductoRepository())..cargarProductos();
+  final conectividad = ConectividadProvider(ConectividadService())
+    // Cuando vuelve internet se recarga el catálogo automáticamente
+    ..alReconectar = catalogo.cargarProductos;
+
   runApp(
     // Providers disponibles para toda la app
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) =>
-              CatalogoProvider(ProductoRepository())..cargarProductos(),
-        ),
+        ChangeNotifierProvider.value(value: catalogo),
+        ChangeNotifierProvider.value(value: conectividad),
       ],
       child: const MyApp(),
     ),
