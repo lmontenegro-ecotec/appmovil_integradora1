@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 	<dict>
+		<key>NSCameraUsageDescription</key>
+		<string>TiendaTec usa la cámara para tomar tu foto de perfil.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>TiendaTec accede a tus fotos para elegir tu imagen de perfil.</string>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
 		<true/>
 		<key>CFBundleDevelopmentRegion</key>

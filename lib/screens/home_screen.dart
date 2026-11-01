@@ -16,7 +16,16 @@ class HomeScreen extends StatelessWidget {
     final productos = catalogo.productos;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('TiendaTec')),
+      appBar: AppBar(
+        title: const Text('TiendaTec'),
+        actions: [
+          IconButton(
+            tooltip: 'Mi perfil',
+            icon: const Icon(Icons.account_circle),
+            onPressed: () => Navigator.pushNamed(context, AppRoutes.perfil),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           // Banner que aparece solo cuando no hay internet
