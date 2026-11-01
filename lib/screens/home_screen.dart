@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:appmovil_integradora1/models/producto.dart';
 import 'package:appmovil_integradora1/widgets/producto_card.dart';
 import 'package:appmovil_integradora1/screens/detalle_screen.dart';
+import 'package:appmovil_integradora1/theme/app_theme.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -10,19 +11,17 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Catálogo Electrónico'),
-        backgroundColor: Colors.indigo,
-        foregroundColor: Colors.white,
+        title: const Text('TiendaTec'),
       ),
       body: Column(
         children: [
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(16),
-            color: Colors.indigo.shade50,
+            color: AppTheme.fondoSuave,
             child: Row(
               children: [
-                const Icon(Icons.devices, size: 40, color: Colors.indigo),
+                const Icon(Icons.devices, size: 40, color: AppTheme.primario),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
