@@ -21,7 +21,8 @@ class ConectividadService {
   Future<bool> verificarConexion() async {
     try {
       final resultado = await _connectivity.checkConnectivity();
-      return _evaluar(resultado);
+      // await dentro del try: así cualquier error de _evaluar cae en el catch
+      return await _evaluar(resultado);
     } catch (e) {
       debugPrint('ConectividadService: no se pudo verificar la red -> $e');
       return false;
