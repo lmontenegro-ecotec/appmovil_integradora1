@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:appmovil_integradora1/models/producto.dart';
-import 'package:appmovil_integradora1/widgets/producto_card.dart';
-import 'package:appmovil_integradora1/screens/detalle_screen.dart';
+import 'package:appmovil_integradora1/routes/app_routes.dart';
+import 'package:appmovil_integradora1/widgets/widgets.dart';
 import 'package:appmovil_integradora1/theme/app_theme.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -52,11 +52,11 @@ class HomeScreen extends StatelessWidget {
                     debugPrint(
                       'Navegando al detalle con producto id=${producto.id} (${producto.nombre})',
                     );
-                    Navigator.push(
+                    // Navegación por nombre enviando el producto como argumento
+                    Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => DetalleScreen(producto: producto),
-                      ),
+                      AppRoutes.detalle,
+                      arguments: producto,
                     );
                   },
                 );
