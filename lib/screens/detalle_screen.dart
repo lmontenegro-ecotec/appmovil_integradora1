@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:appmovil_integradora1/models/producto.dart';
 import 'package:appmovil_integradora1/services/notificaciones_service.dart';
 import 'package:appmovil_integradora1/theme/app_theme.dart';
+import 'package:appmovil_integradora1/widgets/producto_imagen.dart';
 
 class DetalleScreen extends StatefulWidget {
   final Producto producto;
@@ -46,11 +47,9 @@ class _DetalleScreenState extends State<DetalleScreen> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
-                producto.imagen,
-                width: double.infinity,
-                height: 220,
-                fit: BoxFit.cover,
+              child: Container(
+                color: Colors.white,
+                child: ProductoImagen(producto: producto, alto: 240),
               ),
             ),
             const SizedBox(height: 16),
@@ -62,6 +61,18 @@ class _DetalleScreenState extends State<DetalleScreen> {
             Text(
               '\$${producto.precio.toStringAsFixed(2)}',
               style: const TextStyle(fontSize: 20, color: AppTheme.primario),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Chip(
+                  label: Text(producto.categoria),
+                  avatar: const Icon(Icons.sell_outlined, size: 16),
+                ),
+                const SizedBox(width: 8),
+                const Icon(Icons.star, color: Colors.amber),
+                Text(' ${producto.calificacion.toStringAsFixed(1)} / 5'),
+              ],
             ),
             const SizedBox(height: 16),
             Text(producto.descripcion, style: const TextStyle(fontSize: 16)),
