@@ -21,7 +21,7 @@ Future<void> main() async {
     ..alPerderConexion = () {
       notificaciones.mostrar(
         'Sin conexión a internet',
-        'TiendaTec muestra el catálogo guardado en tu dispositivo.',
+        'Puedes ver el catálogo guardado mientras vuelve la señal.',
       );
     }
     // Evento clave: vuelve la conexión -> recarga el catálogo y avisa
